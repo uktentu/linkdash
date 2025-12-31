@@ -237,6 +237,7 @@ function App() {
         onClose={() => setSettingsOpen(false)}
         currentTheme={localData.theme || 'theme-indigo'}
         currentPattern={localData.pattern || 'dots'}
+        currentLinkLayout={localData.linkLayout || 'list'} // Pass this
         onUpdate={updateTheme}
       />
 

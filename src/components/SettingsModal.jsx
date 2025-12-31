@@ -1,7 +1,7 @@
 import { Modal } from './Modal';
 import { Check, Palette, Grid, Circle, List, LayoutGrid } from 'lucide-react';
 
-export function SettingsModal({ isOpen, onClose, currentTheme, currentPattern, onUpdate }) {
+export function SettingsModal({ isOpen, onClose, currentTheme, currentPattern, currentLinkLayout = 'list', onUpdate }) {
     const themes = [
         { id: 'theme-white', name: 'White', color: '#ffffff' },
         { id: 'theme-indigo', name: 'Indigo', color: '#6366f1' },
@@ -73,7 +73,7 @@ export function SettingsModal({ isOpen, onClose, currentTheme, currentPattern, o
                             <button
                                 key={layout}
                                 onClick={() => onUpdate({ linkLayout: layout })}
-                                className={`h-20 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all ${((window.localStorage.getItem('url-dashboard-data') && JSON.parse(window.localStorage.getItem('url-dashboard-data')).linkLayout) || 'list') === layout
+                                className={`h-20 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all ${currentLinkLayout === layout
                                     ? 'bg-[var(--bg-input)] border-[var(--primary-color)] text-[var(--text-primary)]'
                                     : 'bg-[var(--bg-card)] border-[var(--border-subtle)] text-[var(--text-tertiary)] hover:border-[var(--text-secondary)]'
                                     }`}

@@ -31,7 +31,7 @@ export function Tooltip({ children, content, side = 'bottom' }) {
                         exit="hidden"
                         variants={variants}
                         transition={{ duration: 0.15, ease: "easeOut" }}
-                        className={`absolute z-50 whitespace-nowrap px-2.5 py-1.5 rounded-lg text-[11px] font-medium bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--text-primary)] shadow-xl ${positionClasses[side]}`}
+                        className={`absolute z-50 whitespace-nowrap px-2.5 py-1.5 rounded-lg text-[11px] font-medium bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--text-primary)] shadow-xl pointer-events-none ${positionClasses[side]}`}
                     >
                         {content}
                     </motion.div>

@@ -435,10 +435,13 @@ export function Dashboard({
                                             </div>
                                         ))}
                                         {filteredCategories.length === 0 && (
-                                            <div className="col-span-full h-64 flex flex-col items-center justify-center text-[var(--text-tertiary)] border-2 border-dashed border-[var(--border-subtle)] rounded-2xl">
-                                                <Search className="w-8 h-8 mb-3 opacity-50" />
-                                                <p className="text-sm font-medium">
+                                            <div className="col-span-full min-h-[400px] flex flex-col items-center justify-center text-[var(--text-tertiary)] border-2 border-dashed border-[var(--border-subtle)] rounded-2xl">
+                                                <Search className="w-16 h-16 md:w-20 md:h-20 mb-4 opacity-40" />
+                                                <p className="text-base md:text-lg font-medium">
                                                     {searchQuery ? `No matches for "${searchQuery}"` : "No collections found."}
+                                                </p>
+                                                <p className="text-sm md:text-base text-[var(--text-tertiary)]/60 mt-2">
+                                                    {searchQuery ? "Try adjusting your search" : "Click 'New' to create your first collection"}
                                                 </p>
                                             </div>
                                         )}

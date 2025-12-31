@@ -49,13 +49,20 @@ export function useCloudSync(localData, setLocalData) {
             const { data: encryptedData, updatedAt } = response;
             const decryptedData = await decryptData(encryptedData, key);
 
-            // Merge: Pull categories/teams from cloud, keep local UI settings
+            // Merge: Pull categories/teams from cloud, but ALWAYS keep local UI settings
+            // Local UI preferences take absolute priority
+            const localSettings = {
+                linkLayout: localDataRef.current?.linkLayout,
+                theme: localDataRef.current?.theme,
+                pattern: localDataRef.current?.pattern
+            };
+
             const merged = {
                 ...decryptedData,
-                // Preserve local UI preferences if they exist
-                linkLayout: localDataRef.current?.linkLayout || decryptedData.linkLayout || 'list',
-                theme: localDataRef.current?.theme || decryptedData.theme || 'theme-white',
-                pattern: localDataRef.current?.pattern || decryptedData.pattern || 'dots'
+                // Force local UI preferences - never let cloud data override these
+                linkLayout: localSettings.linkLayout !== undefined ? localSettings.linkLayout : (decryptedData.linkLayout || 'list'),
+                theme: localSettings.theme !== undefined ? localSettings.theme : (decryptedData.theme || 'theme-white'),
+                pattern: localSettings.pattern !== undefined ? localSettings.pattern : (decryptedData.pattern || 'dots')
             };
 
             // Restore data
@@ -131,13 +138,20 @@ export function useCloudSync(localData, setLocalData) {
             const { data: encryptedData, updatedAt } = response;
             const decrypted = await decryptData(encryptedData, recoveryKey);
 
-            // Merge: Pull categories/teams from cloud, keep local UI settings
+            // Merge: Pull categories/teams from cloud, but ALWAYS keep local UI settings
+            // Local UI preferences take absolute priority
+            const localSettings = {
+                linkLayout: localDataRef.current?.linkLayout,
+                theme: localDataRef.current?.theme,
+                pattern: localDataRef.current?.pattern
+            };
+
             const merged = {
                 ...decrypted,
-                // Preserve local UI preferences
-                linkLayout: localDataRef.current?.linkLayout || decrypted.linkLayout || 'list',
-                theme: localDataRef.current?.theme || decrypted.theme || 'theme-white',
-                pattern: localDataRef.current?.pattern || decrypted.pattern || 'dots'
+                // Force local UI preferences - never let cloud data override these
+                linkLayout: localSettings.linkLayout !== undefined ? localSettings.linkLayout : (decrypted.linkLayout || 'list'),
+                theme: localSettings.theme !== undefined ? localSettings.theme : (decrypted.theme || 'theme-white'),
+                pattern: localSettings.pattern !== undefined ? localSettings.pattern : (decrypted.pattern || 'dots')
             };
 
             // Update local data

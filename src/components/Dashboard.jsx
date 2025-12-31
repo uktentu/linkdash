@@ -41,6 +41,7 @@ export function Dashboard({
     onOpenJoinTeam, // New prop
     syncState, // New prop
     onEnableSync, // New prop
+    onRecoverAccount, // Restored prop
     onDisconnect, // New prop
     onIncrementClick, // New prop
     onOpenSettings, // New prop
@@ -306,15 +307,26 @@ export function Dashboard({
                                     </button>
                                 </Tooltip>
                             ) : (
-                                <Tooltip content="Enable Cloud Sync">
-                                    <button
-                                        onClick={onEnableSync}
-                                        className="h-9 w-9 flex items-center justify-center rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition-all"
-                                        title="Enable Cloud Sync"
-                                    >
-                                        <Cloud className="w-4 h-4" />
-                                    </button>
-                                </Tooltip>
+                                <div className="flex items-center gap-1">
+                                    <Tooltip content="Enable Cloud Sync">
+                                        <button
+                                            onClick={onEnableSync}
+                                            className="h-9 w-9 flex items-center justify-center rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition-all"
+                                            title="Enable Cloud Sync"
+                                        >
+                                            <Cloud className="w-4 h-4" />
+                                        </button>
+                                    </Tooltip>
+                                    <Tooltip content="Recover Data">
+                                        <button
+                                            onClick={onRecoverAccount}
+                                            className="h-9 w-9 flex items-center justify-center rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition-all"
+                                            title="Recover Data"
+                                        >
+                                            <Download className="w-4 h-4" />
+                                        </button>
+                                    </Tooltip>
+                                </div>
                             )
                         )}
 

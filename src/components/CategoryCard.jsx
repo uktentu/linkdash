@@ -101,7 +101,7 @@ export function CategoryCard({ category, viewMode, onEdit, onDelete, onAddUrl, o
                                             initial={{ opacity: 0, scale: 0.9, y: 10 }}
                                             animate={{ opacity: 1, scale: 1, y: 0 }}
                                             exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                                            className="absolute right-0 top-full mt-2 w-48 py-1 rounded-xl glass-panel shadow-2xl z-20 overflow-hidden"
+                                            className="absolute right-0 top-full mt-2 w-48 py-1 rounded-xl bg-[#1a1a1f] border border-[var(--border-subtle)] shadow-2xl z-20 overflow-hidden"
                                         >
                                             <button
                                                 onClick={() => { setIsMenuOpen(false); onEdit(); }}

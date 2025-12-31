@@ -21,7 +21,10 @@ export function useLocalStorage() {
     });
 
     useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        const handler = setTimeout(() => {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }, 500); // Debounce writes to avoid UI stutter on typing/drag
+        return () => clearTimeout(handler);
     }, [data]);
 
     const updateTheme = (updates) => {

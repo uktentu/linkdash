@@ -193,7 +193,7 @@ export function useLocalStorage() {
         importData, // Expose import function
         updateTheme, // Expose theme updater
         reorderCategories, // Expose
-        theme: data.theme || 'theme-indigo',
+        theme: data.theme || 'theme-white',
         pattern: data.pattern || 'dots'
     };
 }

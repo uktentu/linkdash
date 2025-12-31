@@ -236,7 +236,7 @@ function App() {
       <SettingsModal
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
-        currentTheme={localData.theme || 'theme-indigo'}
+        currentTheme={localData.theme || 'theme-white'}
         currentPattern={localData.pattern || 'dots'}
         currentLinkLayout={localData.linkLayout || 'list'} // Pass this
         onUpdate={updateTheme}

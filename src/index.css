@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+:root {
+  /* Dynamic Theme Variables */
+  --primary-hue: 244;
+  /* Default Indigo */
+  --primary-sat: 65%;
+  --primary-500: oklch(0.65 0.22 var(--primary-hue));
+  /* Approximate */
+
+  /* We can override Tailwind colors if needed, or just use these vars */
+
+  --bg-main: #09090b;
+  --bg-card: #121215;
+  /* Zinc 900/950 mix */
+  --bg-card-hover: #18181b;
+  --bg-input: #1f1f22;
+
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #52525b;
+
+  --border-subtle: #27272a;
+  --border-hover: #3f3f46;
+
+  font-family: 'Inter', sans-serif;
+  color-scheme: dark;
+
+  /* Default text on primary is white */
+  --text-on-primary: #ffffff;
+}
+
+/* Theme Overrides - Applied to the top-level app wrapper */
+/* Theme Overrides - Applied to the top-level app wrapper */
+.theme-indigo {
+  --primary-hue: 244;
+  --primary-500: oklch(0.65 0.22 var(--primary-hue));
+}
+
+/* Indigo-500 approx */
+.theme-violet {
+  --primary-hue: 270;
+  --primary-500: oklch(0.65 0.22 var(--primary-hue));
+}
+
+/* Violet-500 approx */
+.theme-rose {
+  --primary-hue: 350;
+  --primary-500: oklch(0.65 0.22 var(--primary-hue));
+}
+
+/* Rose-500 approx */
+.theme-teal {
+  --primary-hue: 170;
+  --primary-500: oklch(0.65 0.22 var(--primary-hue));
+}
+
+/* Teal-500 approx */
+.theme-amber {
+  --primary-hue: 45;
+  --primary-500: oklch(0.65 0.22 var(--primary-hue));
+}
+
+/* White Theme */
+.theme-white {
+  --primary-hue: 0;
+  --primary-500: #ffffff;
+  /* Pure white for buttons and accents */
+  --text-on-primary: #000000;
+  /* Contrast text for white buttons */
+}
+
+/* Amber-500 approx */
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  /* background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px; */
+  /* Moved background pattern to App.jsx for dynamic switching */
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll on mobile transitions */
+}
+
+/* Glass Utilities */
+.glass-panel {
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-header {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Card Animations & Styles */
+.card-premium {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 0 0 1px transparent;
+}
+
+.card-premium:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-subtle);
+}
+
+/* Buttons with tactile feel */
+/* Buttons with tactile feel - Solid Color per user request */
+.btn-primary {
+  background: var(--primary-500);
+  /* Use variable for background */
+  color: var(--text-on-primary);
+  /* Use dynamic text color */
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:active {
+  transform: scale(0.96);
+  background: #d4d4d4;
+}
+
+.btn-icon {
+  background: transparent;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+.btn-icon:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  transform: scale(1.05);
+}
+
+.btn-icon:active {
+  transform: scale(0.95);
+}
+
+/* Inputs */
+.input-minimal {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.input-minimal:focus {
+  outline: none;
+  border-color: var(--text-secondary);
+  background-color: var(--bg-card);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+}
+
+/* Animations */
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  .glass-panel {
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+}
+
+/* Expert Polish: Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Expert Polish: Selection */
+::selection {
+  background: oklch(from var(--primary-500) l c h / 0.3);
+  color: white;
+}
+
+/* Expert Polish: Focus Rings */
+*:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.cmd-palette-input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}

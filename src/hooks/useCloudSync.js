@@ -126,11 +126,14 @@ export function useCloudSync(localData, setLocalData) {
                     // Decrypt and compare
                     try {
                         const decrypted = await decryptData(encryptedData, recoveryKey);
+
+                        // Always acknowledge this timestamp, even if data is identical
+                        lastSyncedAt.current = remoteTime;
+
                         // Compare against LATEST local data
                         if (JSON.stringify(decrypted) !== JSON.stringify(localDataRef.current)) {
                             console.log("Received remote update");
                             isRemoteUpdate.current = true;
-                            lastSyncedAt.current = remoteTime;
                             setLocalData(decrypted);
                             setSyncState(prev => ({ ...prev, status: 'synced', lastSynced: new Date() }));
                         }

@@ -46,7 +46,8 @@ export const cloudStorage = {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            return docSnap.data().data;
+            const d = docSnap.data();
+            return { data: d.data, updatedAt: d.updatedAt };
         } else {
             return null; // Not found
         }
@@ -59,9 +60,7 @@ export const cloudStorage = {
         return onSnapshot(docRef, (doc) => {
             if (doc.exists()) {
                 const data = doc.data();
-                // We pass the whole data object including timestamp? Or just encrypted data?
-                // load() returns .data. So make this consistent.
-                onUpdate(data.data);
+                onUpdate({ data: data.data, updatedAt: data.updatedAt });
             }
         });
     }

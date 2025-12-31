@@ -40,17 +40,19 @@ export function useCloudSync(localData, setLocalData) {
         setSyncState(prev => ({ ...prev, status: 'recovering' }));
         try {
             const syncId = await deriveSyncId(key);
-            const encryptedData = await cloudStorage.load(syncId);
+            const response = await cloudStorage.load(syncId);
 
-            if (!encryptedData) {
+            if (!response) {
                 throw new Error("No data found for this key.");
             }
 
+            const { data: encryptedData, updatedAt } = response;
             const decryptedData = await decryptData(encryptedData, key);
 
             // Restore data
             setLocalData(decryptedData);
             saveKey(key);
+            lastSyncedAt.current = new Date(updatedAt).getTime();
             setSyncState({ status: 'synced', lastSynced: new Date(), error: null });
 
             return true;
@@ -78,6 +80,7 @@ export function useCloudSync(localData, setLocalData) {
 
     const isRemoteUpdate = useRef(false);
     const localDataRef = useRef(localData);
+    const lastSyncedAt = useRef(0);
 
     // Keep ref updated
     useEffect(() => {
@@ -111,8 +114,14 @@ export function useCloudSync(localData, setLocalData) {
         const setupSubscription = async () => {
             try {
                 const syncId = await deriveSyncId(recoveryKey);
-                unsubscribe = cloudStorage.subscribe(syncId, async (encryptedData) => {
+                unsubscribe = cloudStorage.subscribe(syncId, async ({ data: encryptedData, updatedAt }) => {
                     if (!encryptedData) return;
+
+                    const remoteTime = new Date(updatedAt).getTime();
+                    if (remoteTime <= lastSyncedAt.current) {
+                        console.log("Ignoring older cloud data");
+                        return;
+                    }
 
                     // Decrypt and compare
                     try {
@@ -121,6 +130,7 @@ export function useCloudSync(localData, setLocalData) {
                         if (JSON.stringify(decrypted) !== JSON.stringify(localDataRef.current)) {
                             console.log("Received remote update");
                             isRemoteUpdate.current = true;
+                            lastSyncedAt.current = remoteTime;
                             setLocalData(decrypted);
                             setSyncState(prev => ({ ...prev, status: 'synced', lastSynced: new Date() }));
                         }

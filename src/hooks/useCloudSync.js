@@ -154,8 +154,6 @@ export function useCloudSync(localData, setLocalData) {
                 pattern: localSettings.pattern !== undefined ? localSettings.pattern : (decrypted.pattern || 'dots')
             };
 
-            console.log('[Sync Debug] Local:', localSettings, 'Cloud:', { linkLayout: decrypted.linkLayout }, 'Merged:', { linkLayout: merged.linkLayout });
-
             // Update local data
             isRemoteUpdate.current = true;
             lastSyncedAt.current = new Date(updatedAt).getTime();

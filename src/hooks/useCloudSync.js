@@ -136,7 +136,7 @@ export function useCloudSync(localData, setLocalData) {
         setupSubscription();
 
         return () => unsubscribe();
-    }, [recoveryKey, setLocalData, syncState.status]);
+    }, [recoveryKey, setLocalData]);
 
     // 5. Disconnect (Stop Syncing)
     const disconnect = useCallback(() => {

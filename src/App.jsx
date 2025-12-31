@@ -169,7 +169,7 @@ function App() {
         onEnableSync={() => setEnableSyncOpen(true)} // Open sync modal
         onRecoverAccount={() => setRecoverAccountOpen(true)} // Open recover modal
         onPullFromCloud={pullFromCloud} // Manual refresh
-        onDisconnect={disconnect} // Direct disconnect
+        onDisconnect={handleDisconnect} // Show confirmation first
         onIncrementClick={incrementUrlClick}
         onOpenSettings={() => setSettingsOpen(true)}
         reorderCategories={reorderCategories} // Pass reorder function

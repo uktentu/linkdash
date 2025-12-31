@@ -49,8 +49,17 @@ export function useCloudSync(localData, setLocalData) {
             const { data: encryptedData, updatedAt } = response;
             const decryptedData = await decryptData(encryptedData, key);
 
+            // Merge: Pull categories/teams from cloud, keep local UI settings
+            const merged = {
+                ...decryptedData,
+                // Preserve local UI preferences if they exist
+                linkLayout: localDataRef.current?.linkLayout || decryptedData.linkLayout || 'list',
+                theme: localDataRef.current?.theme || decryptedData.theme || 'theme-white',
+                pattern: localDataRef.current?.pattern || decryptedData.pattern || 'dots'
+            };
+
             // Restore data
-            setLocalData(decryptedData);
+            setLocalData(merged);
             saveKey(key);
             lastSyncedAt.current = new Date(updatedAt).getTime();
             setSyncState({ status: 'synced', lastSynced: new Date(), error: null });

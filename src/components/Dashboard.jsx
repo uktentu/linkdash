@@ -435,13 +435,11 @@ export function Dashboard({
                                             </div>
                                         ))}
                                         {filteredCategories.length === 0 && (
-                                            <div className="col-span-full flex items-center justify-center py-32 text-[var(--text-tertiary)]">
-                                                <div className="text-center">
-                                                    <Search className="w-12 h-12 mx-auto mb-4 opacity-30" />
-                                                    <p className="text-lg font-medium">
-                                                        {searchQuery ? `No matches for "${searchQuery}"` : "No collections found"}
-                                                    </p>
-                                                </div>
+                                            <div className="col-span-full w-full flex flex-col items-center justify-center py-32 text-[var(--text-tertiary)]">
+                                                <Search className="w-12 h-12 mb-4 opacity-30" />
+                                                <p className="text-lg font-medium">
+                                                    {searchQuery ? `No matches for "${searchQuery}"` : "No collections found"}
+                                                </p>
                                             </div>
                                         )}
                                     </AnimatePresence>

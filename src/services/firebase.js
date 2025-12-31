@@ -2,7 +2,7 @@
 // The user must replace these values with their own from the Firebase Console.
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 // Placeholder config - User needs to fill this!
 const firebaseConfig = {
@@ -50,6 +50,20 @@ export const cloudStorage = {
         } else {
             return null; // Not found
         }
+    },
+
+    // Subscribe to changes
+    subscribe: (syncId, onUpdate) => {
+        if (!db) return () => { }; // return no-op if no db
+        const docRef = doc(db, "dashboards", syncId);
+        return onSnapshot(docRef, (doc) => {
+            if (doc.exists()) {
+                const data = doc.data();
+                // We pass the whole data object including timestamp? Or just encrypted data?
+                // load() returns .data. So make this consistent.
+                onUpdate(data.data);
+            }
+        });
     }
 };
 

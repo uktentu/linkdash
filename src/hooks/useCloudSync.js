@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { generateSecretKey, deriveSyncId, encryptData, decryptData } from '../utils/cryptoUtils';
 import { cloudStorage } from '../services/firebase';
 
@@ -76,9 +76,23 @@ export function useCloudSync(localData, setLocalData) {
         }
     }, []);
 
+    const isRemoteUpdate = useRef(false);
+    const localDataRef = useRef(localData);
+
+    // Keep ref updated
+    useEffect(() => {
+        localDataRef.current = localData;
+    }, [localData]);
+
     // 4. Auto-Sync Effect
     useEffect(() => {
         if (!recoveryKey || !localData) return;
+
+        // If this update came from the cloud, don't echo it back
+        if (isRemoteUpdate.current) {
+            isRemoteUpdate.current = false;
+            return;
+        }
 
         // Simple debounce
         const timer = setTimeout(() => {
@@ -87,6 +101,42 @@ export function useCloudSync(localData, setLocalData) {
 
         return () => clearTimeout(timer);
     }, [localData, recoveryKey, syncToCloud]);
+
+    // 5. Subscription Effect (Listen for Cloud Changes)
+    useEffect(() => {
+        if (!recoveryKey || syncState.status === 'recovering') return;
+
+        let unsubscribe = () => { };
+
+        const setupSubscription = async () => {
+            try {
+                const syncId = await deriveSyncId(recoveryKey);
+                unsubscribe = cloudStorage.subscribe(syncId, async (encryptedData) => {
+                    if (!encryptedData) return;
+
+                    // Decrypt and compare
+                    try {
+                        const decrypted = await decryptData(encryptedData, recoveryKey);
+                        // Compare against LATEST local data
+                        if (JSON.stringify(decrypted) !== JSON.stringify(localDataRef.current)) {
+                            console.log("Received remote update");
+                            isRemoteUpdate.current = true;
+                            setLocalData(decrypted);
+                            setSyncState(prev => ({ ...prev, status: 'synced', lastSynced: new Date() }));
+                        }
+                    } catch (e) {
+                        console.error("Failed to decrypt remote update", e);
+                    }
+                });
+            } catch (e) {
+                console.error("Subscription setup failed", e);
+            }
+        };
+
+        setupSubscription();
+
+        return () => unsubscribe();
+    }, [recoveryKey, setLocalData, syncState.status]);
 
     // 5. Disconnect (Stop Syncing)
     const disconnect = useCallback(() => {

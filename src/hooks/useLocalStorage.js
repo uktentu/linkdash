@@ -170,7 +170,11 @@ export function useLocalStorage() {
         if (newData && Array.isArray(newData.categories)) {
             setData({
                 categories: newData.categories,
-                teams: newData.teams || []
+                teams: newData.teams || [],
+                // Include UI settings
+                linkLayout: newData.linkLayout || data.linkLayout || 'list',
+                theme: newData.theme || data.theme || 'theme-white',
+                pattern: newData.pattern || data.pattern || 'dots'
             });
             return true;
         }

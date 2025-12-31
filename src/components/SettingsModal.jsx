@@ -35,7 +35,7 @@ export function SettingsModal({ isOpen, onClose, currentTheme, currentPattern, c
                                 style={{ backgroundColor: t.color }}
                                 title={t.name}
                             >
-                                {currentTheme === t.id && <Check className="w-5 h-5 text-white drop-shadow-md" />}
+                                {currentTheme === t.id && <Check className={`w-5 h-5 drop-shadow-md ${t.id === 'theme-white' ? 'text-black' : 'text-white'}`} />}
                             </button>
                         ))}
                     </div>

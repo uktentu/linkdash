@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'; // eslint-disable-line no-unused-vars
-import { Search, Plus, ExternalLink, LayoutGrid, List, Cloud, LogIn, Settings, ArrowLeft, X, Download, Share2, Users } from 'lucide-react';
+import { Search, Plus, ExternalLink, LayoutGrid, List, Cloud, LogIn, Settings, ArrowLeft, X, Download, Share2, Users, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 import { CategoryCard } from './CategoryCard';
 import { TeamCard } from './TeamCard';
@@ -42,6 +42,7 @@ export function Dashboard({
     syncState, // New prop
     onEnableSync, // New prop
     onRecoverAccount, // Restored prop
+    onPullFromCloud, // Manual refresh prop
     onDisconnect, // New prop
     onIncrementClick, // New prop
     onOpenSettings, // New prop
@@ -296,16 +297,27 @@ export function Dashboard({
                         {/* Sync Status */}
                         {!activeTeam && (
                             syncState?.status === 'synced' ? (
-                                <Tooltip content="Synced (Click to Disconnect)">
-                                    <button
-                                        onClick={onDisconnect}
-                                        className="h-9 w-9 flex items-center justify-center rounded-lg text-green-400 hover:bg-red-500/10 hover:text-red-400 transition-all group"
-                                        title="Synced (Click to Disconnect)"
-                                    >
-                                        <Cloud className="w-4 h-4 group-hover:hidden" />
-                                        <X className="w-4 h-4 hidden group-hover:block" />
-                                    </button>
-                                </Tooltip>
+                                <div className="flex items-center gap-1">
+                                    <Tooltip content="Refresh from Cloud">
+                                        <button
+                                            onClick={onPullFromCloud}
+                                            className="h-9 w-9 flex items-center justify-center rounded-lg text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 transition-all"
+                                            title="Refresh from Cloud"
+                                        >
+                                            <RefreshCw className="w-4 h-4" />
+                                        </button>
+                                    </Tooltip>
+                                    <Tooltip content="Synced (Click to Disconnect)">
+                                        <button
+                                            onClick={onDisconnect}
+                                            className="h-9 w-9 flex items-center justify-center rounded-lg text-green-400 hover:bg-red-500/10 hover:text-red-400 transition-all group"
+                                            title="Synced (Click to Disconnect)"
+                                        >
+                                            <Cloud className="w-4 h-4 group-hover:hidden" />
+                                            <X className="w-4 h-4 hidden group-hover:block" />
+                                        </button>
+                                    </Tooltip>
+                                </div>
                             ) : (
                                 <div className="flex items-center gap-1">
                                     <Tooltip content="Enable Cloud Sync">

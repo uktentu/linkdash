@@ -29,7 +29,7 @@ function App() {
   } = useLocalStorage();
 
   // Cloud Sync Hook
-  const { syncState, enableSync, recoverAccount, disconnect } = useCloudSync(localData, importData);
+  const { syncState, enableSync, recoverAccount, pullFromCloud, disconnect } = useCloudSync(localData, importData);
 
   // Modal states
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -168,7 +168,8 @@ function App() {
         onOpenJoinTeam={() => setJoinTeamOpen(true)}
         onEnableSync={() => setEnableSyncOpen(true)} // Open sync modal
         onRecoverAccount={() => setRecoverAccountOpen(true)} // Open recover modal
-        onDisconnect={handleDisconnect} // Use the confirmation handler
+        onPullFromCloud={pullFromCloud} // Manual refresh
+        onDisconnect={disconnect} // Direct disconnect
         onIncrementClick={incrementUrlClick}
         onOpenSettings={() => setSettingsOpen(true)}
         reorderCategories={reorderCategories} // Pass reorder function

@@ -105,50 +105,35 @@ export function useCloudSync(localData, setLocalData) {
         return () => clearTimeout(timer);
     }, [localData, recoveryKey, syncToCloud]);
 
-    // 5. Subscription Effect (Listen for Cloud Changes)
-    useEffect(() => {
-        if (!recoveryKey || syncState.status === 'recovering') return;
+    // 5. Manual Pull from Cloud
+    const pullFromCloud = useCallback(async () => {
+        if (!recoveryKey) return false;
 
-        let unsubscribe = () => { };
+        setSyncState(prev => ({ ...prev, status: 'syncing' }));
+        try {
+            const syncId = await deriveSyncId(recoveryKey);
+            const response = await cloudStorage.load(syncId);
 
-        const setupSubscription = async () => {
-            try {
-                const syncId = await deriveSyncId(recoveryKey);
-                unsubscribe = cloudStorage.subscribe(syncId, async ({ data: encryptedData, updatedAt }) => {
-                    if (!encryptedData) return;
-
-                    const remoteTime = new Date(updatedAt).getTime();
-                    if (remoteTime <= lastSyncedAt.current) {
-                        console.log("Ignoring older cloud data");
-                        return;
-                    }
-
-                    // Decrypt and compare
-                    try {
-                        const decrypted = await decryptData(encryptedData, recoveryKey);
-
-                        // Always acknowledge this timestamp, even if data is identical
-                        lastSyncedAt.current = remoteTime;
-
-                        // Compare against LATEST local data
-                        if (JSON.stringify(decrypted) !== JSON.stringify(localDataRef.current)) {
-                            console.log("Received remote update");
-                            isRemoteUpdate.current = true;
-                            setLocalData(decrypted);
-                            setSyncState(prev => ({ ...prev, status: 'synced', lastSynced: new Date() }));
-                        }
-                    } catch (e) {
-                        console.error("Failed to decrypt remote update", e);
-                    }
-                });
-            } catch (e) {
-                console.error("Subscription setup failed", e);
+            if (!response) {
+                setSyncState(prev => ({ ...prev, status: 'error', error: 'No cloud data found' }));
+                return false;
             }
-        };
 
-        setupSubscription();
+            const { data: encryptedData, updatedAt } = response;
+            const decrypted = await decryptData(encryptedData, recoveryKey);
 
-        return () => unsubscribe();
+            // Update local data
+            isRemoteUpdate.current = true;
+            lastSyncedAt.current = new Date(updatedAt).getTime();
+            setLocalData(decrypted);
+            setSyncState({ status: 'synced', lastSynced: new Date(), error: null });
+
+            return true;
+        } catch (e) {
+            console.error('Pull failed', e);
+            setSyncState(prev => ({ ...prev, status: 'error', error: 'Failed to fetch from cloud' }));
+            return false;
+        }
     }, [recoveryKey, setLocalData]);
 
     // 5. Disconnect (Stop Syncing)
@@ -167,6 +152,7 @@ export function useCloudSync(localData, setLocalData) {
         recoveryKey,
         enableSync,
         recoverAccount,
+        pullFromCloud,
         disconnect
     };
 }

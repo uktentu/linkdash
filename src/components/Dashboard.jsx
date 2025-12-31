@@ -435,14 +435,13 @@ export function Dashboard({
                                             </div>
                                         ))}
                                         {filteredCategories.length === 0 && (
-                                            <div className="col-span-full min-h-[400px] flex flex-col items-center justify-center text-[var(--text-tertiary)] border-2 border-dashed border-[var(--border-subtle)] rounded-2xl">
-                                                <Search className="w-16 h-16 md:w-20 md:h-20 mb-4 opacity-40" />
-                                                <p className="text-base md:text-lg font-medium">
-                                                    {searchQuery ? `No matches for "${searchQuery}"` : "No collections found."}
-                                                </p>
-                                                <p className="text-sm md:text-base text-[var(--text-tertiary)]/60 mt-2">
-                                                    {searchQuery ? "Try adjusting your search" : "Click 'New' to create your first collection"}
-                                                </p>
+                                            <div className="col-span-full flex items-center justify-center py-32 text-[var(--text-tertiary)]">
+                                                <div className="text-center">
+                                                    <Search className="w-12 h-12 mx-auto mb-4 opacity-30" />
+                                                    <p className="text-lg font-medium">
+                                                        {searchQuery ? `No matches for "${searchQuery}"` : "No collections found"}
+                                                    </p>
+                                                </div>
                                             </div>
                                         )}
                                     </AnimatePresence>

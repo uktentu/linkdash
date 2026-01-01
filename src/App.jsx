@@ -154,10 +154,8 @@ function App() {
   const urlModalCategory = categories.find(c => c.id === urlModalCategoryId);
 
   return (
-    <div className={`h-screen flex flex-col transition-colors duration-500 overflow-hidden ${localData.theme || 'theme-white'}`}>
-
-      {/* Main Content Area - Scrollable */}
-      <main className="flex-1 overflow-y-auto no-scrollbar relative">
+    <div className={`min-h-screen flex flex-col transition-colors duration-500 ${localData.theme || 'theme-white'}`}>
+      <main className="flex-grow">
         <Dashboard
           categories={categories}
           teams={teams}
@@ -184,8 +182,8 @@ function App() {
         />
       </main>
 
-      {/* Developer Footer - Always Visible */}
-      <footer className="py-4 text-center text-sm text-[var(--text-tertiary)] opacity-60 hover:opacity-100 transition-opacity shrink-0 border-t border-[var(--border-subtle)] bg-[var(--bg-main)]">
+      {/* Developer Footer */}
+      <footer className="py-8 text-center text-sm text-[var(--text-tertiary)] opacity-60 hover:opacity-100 transition-opacity">
         <p>&copy; {new Date().getFullYear()} Uday Kiran Tentu. All rights reserved.</p>
       </footer>
 

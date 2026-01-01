@@ -168,7 +168,7 @@ export function Dashboard({
     };
 
     return (
-        <div className="min-h-screen pb-20">
+        <div className="w-full">
             {/* Sticky Glass Header */}
             {/* Top Bar with Branding & Search */}
             <header className="sticky top-0 z-40 bg-black/40 backdrop-blur-2xl border-b border-[var(--border-subtle)] transition-all duration-300 supports-[backdrop-filter]:bg-black/20">

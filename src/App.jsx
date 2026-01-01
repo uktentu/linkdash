@@ -25,7 +25,9 @@ function App() {
     deleteTeam,
     importData,
     updateTheme, // New
-    reorderCategories // New
+    reorderCategories, // New
+    togglePinCategory, // New
+    toggleCategoryCollapse // New
   } = useLocalStorage();
 
   // Cloud Sync Hook
@@ -173,6 +175,8 @@ function App() {
         onIncrementClick={incrementUrlClick}
         onOpenSettings={() => setSettingsOpen(true)}
         reorderCategories={reorderCategories} // Pass reorder function
+        onTogglePin={togglePinCategory} // Pass pin toggle
+        onToggleCollapse={toggleCategoryCollapse} // Pass collapse toggle
         linkLayout={localData.linkLayout || 'list'} // Pass link layout preference
       />
 

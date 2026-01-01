@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'; // eslint-disable-line no-unused-vars
 import { Search, Plus, ExternalLink, LayoutGrid, List, Cloud, LogIn, Settings, ArrowLeft, X, Download, Share2, Users, RefreshCw } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CategoryCard } from './CategoryCard';
 import { TeamCard } from './TeamCard';
 import { Tooltip } from './Tooltip';
@@ -18,14 +18,6 @@ import {
     sortableKeyboardCoordinates,
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
-
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.1 }
-    }
-};
 
 export function Dashboard({
     categories,
@@ -47,6 +39,8 @@ export function Dashboard({
     onIncrementClick, // New prop
     onOpenSettings, // New prop
     reorderCategories, // New prop
+    onTogglePin, // New prop for pin toggle
+    onToggleCollapse, // New prop for collapse toggle
     linkLayout // New prop
 }) {
     const [viewMode] = useState('grid');
@@ -55,6 +49,30 @@ export function Dashboard({
     const [searchQuery, setSearchQuery] = useState('');
     const [activeMode, setActiveMode] = useState('all'); // 'all', 'work', 'personal'
     const [activeId, setActiveId] = useState(null); // For DragOverlay
+
+    // Responsive Column Logic
+    const [numCols, setNumCols] = useState(() => {
+        if (typeof window === 'undefined') return 1;
+        const width = window.innerWidth;
+        if (width >= 1536) return 4;
+        if (width >= 1280) return 3;
+        if (width >= 768) return 2;
+        return 1;
+    });
+
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            if (width >= 1536) setNumCols(4); // 2xl
+            else if (width >= 1280) setNumCols(3); // xl
+            else if (width >= 768) setNumCols(2); // md
+            else setNumCols(1);
+        };
+
+        handleResize(); // Init
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -406,46 +424,65 @@ export function Dashboard({
                             onDragEnd={handleDragEnd}
                         >
                             <SortableContext
-                                items={filteredCategories.map(c => c.id)}
+                                items={filteredCategories.filter(c => !c.pinned).map(c => c.id)}
                                 strategy={rectSortingStrategy}
                             >
                                 <motion.div
-                                    variants={containerVariants}
-                                    initial="hidden"
-                                    animate="visible"
                                     layout
-                                    className={`block columns-1 md:columns-2 xl:columns-3 2xl:columns-4 gap-6 ${viewMode === 'grid' ? '' : 'max-w-4xl mx-auto'
+                                    className={`flex gap-6 items-start ${viewMode === 'grid' ? '' : 'max-w-4xl mx-auto'
                                         }`}
                                 >
-                                    <AnimatePresence mode="popLayout">
-                                        {filteredCategories.map((category) => (
-                                            <div key={category.id} className="mb-6 break-inside-avoid">
-                                                <CategoryCard
-                                                    category={category}
-                                                    viewMode={viewMode}
-                                                    onEdit={() => onEditCategory(category)}
-                                                    onDelete={() => onDeleteCategory(category.id)}
-                                                    onAddUrl={() => onAddUrl(category.id)}
-                                                    onEditUrl={(url) => onEditUrl(category.id, url)}
-                                                    onDeleteUrl={(urlId) => onDeleteUrl(category.id, urlId)}
-                                                    isReadOnly={false}
-                                                    onIncrementClick={onIncrementClick}
-                                                    linkLayout={linkLayout}
-                                                />
-                                            </div>
-                                        ))}
-                                        {filteredCategories.length === 0 && (
-                                            <div className="w-full" style={{ columnSpan: 'all' }}>
-                                                <div className="flex flex-col items-center justify-center py-32 text-[var(--text-tertiary)]">
-                                                    <Search className="w-12 h-12 mb-4 opacity-30" />
-                                                    <p className="text-lg font-medium">
-                                                        {searchQuery ? `No matches for "${searchQuery}"` : "No collections found"}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </AnimatePresence>
+                                    {Array.from({ length: numCols }).map((_, colIndex) => (
+                                        <div key={colIndex} className="flex-1 flex flex-col gap-6">
+                                            <AnimatePresence mode="popLayout">
+                                                {filteredCategories
+                                                    .map((cat, originalIndex) => ({ ...cat, originalIndex }))
+                                                    .filter((_, index) => index % numCols === colIndex)
+                                                    .map((category) => (
+                                                        <motion.div
+                                                            key={category.id}
+                                                            layout
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            exit={{ opacity: 0, scale: 0.9 }}
+                                                            transition={{ duration: 0.3, delay: category.originalIndex * 0.05 }}
+                                                            className="break-inside-avoid"
+                                                        >
+                                                            <CategoryCard
+                                                                category={category}
+                                                                viewMode={viewMode}
+                                                                onEdit={() => onEditCategory(category)}
+                                                                onDelete={() => onDeleteCategory(category.id)}
+                                                                onAddUrl={() => onAddUrl(category.id)}
+                                                                onEditUrl={(url) => onEditUrl(category.id, url)}
+                                                                onDeleteUrl={(urlId) => onDeleteUrl(category.id, urlId)}
+                                                                onTogglePin={() => onTogglePin(category.id)}
+                                                                onToggleCollapse={() => onToggleCollapse(category.id)}
+                                                                isReadOnly={false}
+                                                                onIncrementClick={onIncrementClick}
+                                                                linkLayout={linkLayout}
+                                                            />
+                                                        </motion.div>
+                                                    ))}
+                                            </AnimatePresence>
+                                        </div>
+                                    ))}
+
+                                    {/* Empty State rendered once outside or handled per col? 
+                                        If filteredCategories is 0, nothing renders in cols.
+                                        We need to check filteredCategories.length outside.
+                                    */}
                                 </motion.div>
+                                {filteredCategories.length === 0 && (
+                                    <div className="w-full" style={{ columnSpan: 'all' }}>
+                                        <div className="flex flex-col items-center justify-center py-32 text-[var(--text-tertiary)]">
+                                            <Search className="w-12 h-12 mb-4 opacity-30" />
+                                            <p className="text-lg font-medium">
+                                                {searchQuery ? `No matches for "${searchQuery}"` : "No collections found"}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
                             </SortableContext>
 
                             <DragOverlay>

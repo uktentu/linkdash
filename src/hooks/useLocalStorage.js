@@ -62,21 +62,74 @@ export function useLocalStorage() {
         }));
     };
 
+    const togglePinCategory = (id) => {
+        setData(prev => ({
+            ...prev,
+            categories: prev.categories.map(cat =>
+                cat.id === id ? { ...cat, pinned: !cat.pinned } : cat
+            )
+        }));
+    };
+
+    const toggleCategoryCollapse = (id) => {
+        setData(prev => ({
+            ...prev,
+            categories: prev.categories.map(cat =>
+                cat.id === id ? { ...cat, isCollapsed: !cat.isCollapsed } : cat
+            )
+        }));
+    };
+
     const reorderCategories = (activeId, overId) => {
         setData(prev => {
-            const oldIndex = prev.categories.findIndex(c => c.id === activeId);
-            const newIndex = prev.categories.findIndex(c => c.id === overId);
+            const categories = prev.categories || [];
+            const activeItem = categories.find(c => c.id === activeId);
+            const overItem = categories.find(c => c.id === overId);
 
-            if (oldIndex === -1 || newIndex === -1) return prev;
+            if (!activeItem || !overItem || activeItem.pinned || overItem.pinned) return prev;
 
-            const newCategories = [...prev.categories];
+            const oldIndex = categories.findIndex(c => c.id === activeId);
+            const newIndex = categories.findIndex(c => c.id === overId);
+
+            if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return prev;
+
+            // Simple swap for now, but respecting pinned items as anchors
+            const newCategories = [...categories];
             const [movedItem] = newCategories.splice(oldIndex, 1);
             newCategories.splice(newIndex, 0, movedItem);
 
-            return {
-                ...prev,
-                categories: newCategories
-            };
+            // Re-verify that pinned items are still at their original absolute positions if possible
+            // Actually, the above splice logic will displace them. 
+            // Let's use the anchor logic:
+
+            const pinnedIndices = categories.map((c, i) => c.pinned ? i : -1).filter(i => i !== -1);
+            const pinnedItems = pinnedIndices.map(i => categories[i]);
+            const unpinnedItems = categories.filter(c => !c.pinned);
+
+            const unpinnedOldIndex = unpinnedItems.findIndex(c => c.id === activeId);
+            const unpinnedNewIndex = unpinnedItems.findIndex(c => c.id === overId);
+
+            if (unpinnedOldIndex !== -1 && unpinnedNewIndex !== -1) {
+                const reorderedUnpinned = [...unpinnedItems];
+                const [item] = reorderedUnpinned.splice(unpinnedOldIndex, 1);
+                reorderedUnpinned.splice(unpinnedNewIndex, 0, item);
+
+                // Merge back
+                const finalCategories = [];
+                let unpinnedPtr = 0;
+                for (let i = 0; i < categories.length; i++) {
+                    const pinnedItemAtThisIndex = pinnedItems.find((_, pIdx) => pinnedIndices[pIdx] === i);
+                    if (pinnedItemAtThisIndex) {
+                        finalCategories.push(pinnedItemAtThisIndex);
+                    } else {
+                        finalCategories.push(reorderedUnpinned[unpinnedPtr++]);
+                    }
+                }
+
+                return { ...prev, categories: finalCategories };
+            }
+
+            return prev;
         });
     };
 
@@ -197,6 +250,8 @@ export function useLocalStorage() {
         importData, // Expose import function
         updateTheme, // Expose theme updater
         reorderCategories, // Expose
+        togglePinCategory, // Expose pin toggle
+        toggleCategoryCollapse, // Expose collapse toggle
         theme: data.theme || 'theme-white',
         pattern: data.pattern || 'dots'
     };

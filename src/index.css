@@ -189,27 +189,31 @@ body {
   }
 }
 
-/* Expert Polish: Custom Scrollbar */
+/* Expert Polish: Custom Scrollbar - Hidden per user request */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 0px;
+  height: 0px;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 99px;
-  border: 2px solid transparent;
-  background-clip: content-box;
+  display: none;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--border-hover);
-  border: 2px solid transparent;
-  background-clip: content-box;
+/* Hide scrollbar for Firefox */
+html {
+  scrollbar-width: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  /* IE/Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Expert Polish: Selection */

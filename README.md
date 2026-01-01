@@ -1,16 +1,90 @@
-# React + Vite
+# LinkDash
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**LinkDash** is a modern, customizable, and high-performance URL dashboard designed to organize your digital life. It combines the simplicity of a local bookmark manager with powerful features like cloud synchronization, team collaboration, and a keyboard-driven command palette.
 
-Currently, two official plugins are available:
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![React](https://img.shields.io/badge/react-19.0-blue) ![Vite](https://img.shields.io/badge/vite-7.0-purple) ![Tailwind](https://img.shields.io/badge/tailwind-4.0-cyan)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+*   **🗂️ Smart Organization:** Group links into categories and teams for easy access.
+*   **🖐️ Drag & Drop Interface:** Fully reorderable categories and links using the DnD Kit.
+*   **☁️ Cloud Sync (Firebase):** Optionally sync your dashboard across devices with secure cloud storage.
+*   **👥 Team Collaboration:** Create shared dashboards for teams with secure access codes.
+*   **⌨️ Command Palette:** Press `Cmd+K` (or `Ctrl+K`) to instantly search and navigate your links.
+*   **🎨 Beautiful UI:** Built with Tailwind CSS v4 and Framer Motion for smooth animations and a polished look.
+*   **🔐 Private & Secure:** Local-first architecture with optional encrypted cloud backups.
+*   **📱 Responsive Design:** Fully optimized for desktop, tablet, and mobile.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Technology Stack
 
-## Expanding the ESLint configuration
+*   **Frontend:** [React 19](https://react.dev/)
+*   **Build Tool:** [Vite](https://vitejs.dev/)
+*   **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+*   **Animations:** [Framer Motion](https://www.framer.com/motion/)
+*   **Drag & Drop:** [@dnd-kit](https://dndkit.com/)
+*   **Backend / Sync:** [Firebase](https://firebase.google.com/)
+*   **Icons:** [Lucide React](https://lucide.dev/)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Getting Started
+
+### Prerequisites
+
+*   Node.js (v18 or higher)
+*   npm (v9 or higher)
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/uktentu/linkdash.git
+    cd linkdash
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+    Open your browser and navigate to `http://localhost:5173`.
+
+## 📦 Building for Production
+
+To create a production-ready build:
+
+```bash
+npm run build
+```
+
+This will generate static assets in the `dist` folder, ready for deployment.
+
+## 🚢 Deployment
+
+The project is configured for easy deployment to **GitHub Pages**.
+
+1.  Ensure your `vite.config.js` has the correct `base` path set.
+2.  Run the deploy script:
+    ```bash
+    npm run deploy
+    ```
+
+This script builds the project and pushes the `dist` folder to the `gh-pages` branch.
+
+## 🧠 Key Components
+
+*   **`Dashboard.jsx`**: The main view managing the grid layout and global state.
+*   **`CategoryCard.jsx` / `TeamCard.jsx`**: Container components for link groups.
+*   **`UrlTile.jsx`**: Individual link component with hover effects and analytics hooks.
+*   **`CommandPalette.jsx`**: Global search modal for keyboard accessibility.
+*   **`useCloudSync.js`**: Custom hook handling the synchronization logic with Firebase.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).

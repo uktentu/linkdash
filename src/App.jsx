@@ -180,6 +180,11 @@ function App() {
         linkLayout={localData.linkLayout || 'list'} // Pass link layout preference
       />
 
+      {/* Developer Footer */}
+      <footer className="py-8 text-center text-sm text-[var(--text-tertiary)] opacity-60 hover:opacity-100 transition-opacity">
+        <p>&copy; {new Date().getFullYear()} Uday Kiran Tentu. All rights reserved.</p>
+      </footer>
+
       {/* Modals */}
       <AddCategoryModal
         isOpen={categoryModalOpen}

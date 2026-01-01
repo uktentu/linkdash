@@ -154,34 +154,38 @@ function App() {
   const urlModalCategory = categories.find(c => c.id === urlModalCategoryId);
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${localData.theme || 'theme-white'}`}>
-      <Dashboard
-        categories={categories}
-        teams={teams}
-        syncState={syncState} // Pass sync state
-        onAddCategory={handleAddCategory}
-        onEditCategory={handleEditCategory}
-        onDeleteCategory={handleDeleteCategory}
-        onAddUrl={handleAddUrl}
-        onEditUrl={handleEditUrl}
-        onDeleteUrl={handleDeleteUrl}
-        onDeleteTeam={handleDeleteTeam}
-        onOpenCreateTeam={() => setCreateTeamOpen(true)}
-        onOpenJoinTeam={() => setJoinTeamOpen(true)}
-        onEnableSync={() => setEnableSyncOpen(true)} // Open sync modal
-        onRecoverAccount={() => setRecoverAccountOpen(true)} // Open recover modal
-        onPullFromCloud={pullFromCloud} // Manual refresh
-        onDisconnect={handleDisconnect} // Show confirmation first
-        onIncrementClick={incrementUrlClick}
-        onOpenSettings={() => setSettingsOpen(true)}
-        reorderCategories={reorderCategories} // Pass reorder function
-        onTogglePin={togglePinCategory} // Pass pin toggle
-        onToggleCollapse={toggleCategoryCollapse} // Pass collapse toggle
-        linkLayout={localData.linkLayout || 'list'} // Pass link layout preference
-      />
+    <div className={`h-screen flex flex-col transition-colors duration-500 overflow-hidden ${localData.theme || 'theme-white'}`}>
 
-      {/* Developer Footer - Fixed at bottom */}
-      <footer className="fixed bottom-4 left-0 right-0 text-center text-xs text-[var(--text-tertiary)] opacity-40 hover:opacity-100 transition-opacity z-40 pointer-events-none hover:pointer-events-auto mix-blend-difference">
+      {/* Main Content Area - Scrollable */}
+      <main className="flex-1 overflow-y-auto no-scrollbar relative">
+        <Dashboard
+          categories={categories}
+          teams={teams}
+          syncState={syncState} // Pass sync state
+          onAddCategory={handleAddCategory}
+          onEditCategory={handleEditCategory}
+          onDeleteCategory={handleDeleteCategory}
+          onAddUrl={handleAddUrl}
+          onEditUrl={handleEditUrl}
+          onDeleteUrl={handleDeleteUrl}
+          onDeleteTeam={handleDeleteTeam}
+          onOpenCreateTeam={() => setCreateTeamOpen(true)}
+          onOpenJoinTeam={() => setJoinTeamOpen(true)}
+          onEnableSync={() => setEnableSyncOpen(true)} // Open sync modal
+          onRecoverAccount={() => setRecoverAccountOpen(true)} // Open recover modal
+          onPullFromCloud={pullFromCloud} // Manual refresh
+          onDisconnect={handleDisconnect} // Show confirmation first
+          onIncrementClick={incrementUrlClick}
+          onOpenSettings={() => setSettingsOpen(true)}
+          reorderCategories={reorderCategories} // Pass reorder function
+          onTogglePin={togglePinCategory} // Pass pin toggle
+          onToggleCollapse={toggleCategoryCollapse} // Pass collapse toggle
+          linkLayout={localData.linkLayout || 'list'} // Pass link layout preference
+        />
+      </main>
+
+      {/* Developer Footer - Always Visible */}
+      <footer className="py-4 text-center text-sm text-[var(--text-tertiary)] opacity-60 hover:opacity-100 transition-opacity shrink-0 border-t border-[var(--border-subtle)] bg-[var(--bg-main)]">
         <p>&copy; {new Date().getFullYear()} Uday Kiran Tentu. All rights reserved.</p>
       </footer>
 

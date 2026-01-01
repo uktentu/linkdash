@@ -180,8 +180,8 @@ function App() {
         linkLayout={localData.linkLayout || 'list'} // Pass link layout preference
       />
 
-      {/* Developer Footer */}
-      <footer className="py-8 text-center text-sm text-[var(--text-tertiary)] opacity-60 hover:opacity-100 transition-opacity">
+      {/* Developer Footer - Fixed at bottom */}
+      <footer className="fixed bottom-4 left-0 right-0 text-center text-xs text-[var(--text-tertiary)] opacity-40 hover:opacity-100 transition-opacity z-40 pointer-events-none hover:pointer-events-auto mix-blend-difference">
         <p>&copy; {new Date().getFullYear()} Uday Kiran Tentu. All rights reserved.</p>
       </footer>
 

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Clean Black Rounded Square Background -->
+  <rect x="0" y="0" width="24" height="24" rx="5" fill="black" />
+  
+  <!-- Centered White Link Icon -->
+  <g transform="translate(4, 4) scale(0.66)" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+  </g>
+</svg>

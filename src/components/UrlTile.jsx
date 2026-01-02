@@ -16,24 +16,21 @@ export function UrlTile({ url, index, onEdit, onDelete, onClick }) {
     })();
 
     const [faviconSrc, setFaviconSrc] = useState(
-        url.customFavicon || `https://www.google.com/s2/favicons?domain=${new URL(url.url).hostname}&sz=128`
+        url.customFavicon || `https://unavatar.io/${new URL(url.url).hostname}?fallback=false`
     );
 
     // Update state if url/prop changes (e.g. after edit)
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setFaviconSrc(url.customFavicon || `https://www.google.com/s2/favicons?domain=${new URL(url.url).hostname}&sz=128`);
+        setImgError(false);
+        setFaviconSrc(url.customFavicon || `https://unavatar.io/${new URL(url.url).hostname}?fallback=false`);
     }, [url.url, url.customFavicon]);
 
     const handleImageError = () => {
         if (url.customFavicon && faviconSrc === url.customFavicon) {
             // If custom one failed, revert to auto
-            setFaviconSrc(`https://www.google.com/s2/favicons?domain=${new URL(url.url).hostname}&sz=128`);
-        } else if (faviconSrc.includes('google.com')) {
-            // Fallback to DuckDuckGo
-            setFaviconSrc(`https://icons.duckduckgo.com/ip3/${new URL(url.url).hostname}.ico`);
+            setFaviconSrc(`https://unavatar.io/${new URL(url.url).hostname}?fallback=false`);
         } else {
-            // Fallback to generic icon
+            // If auto failed (or was already auto), show Generic Icon (Letter)
             setImgError(true);
         }
     };
@@ -59,7 +56,7 @@ export function UrlTile({ url, index, onEdit, onDelete, onClick }) {
                 {/* Favicon with Glow */}
                 <div className="relative">
                     <div className={`absolute inset-0 bg-white/20 blur-md rounded-lg transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
-                    <div className="relative w-9 h-9 rounded-lg bg-[#18181b] border border-[var(--border-subtle)] flex items-center justify-center flex-shrink-0 z-10 transition-transform duration-200 group-hover:scale-105">
+                    <div className="relative w-9 h-9 rounded-lg bg-[#18181b] border border-[var(--border-subtle)] flex items-center justify-center flex-shrink-0 z-10 transition-transform duration-200 group-hover:scale-105 overflow-hidden">
                         {!imgError ? (
                             <img
                                 src={faviconSrc}
@@ -68,7 +65,9 @@ export function UrlTile({ url, index, onEdit, onDelete, onClick }) {
                                 onError={handleImageError}
                             />
                         ) : (
-                            <Globe className="w-4 h-4 text-[var(--text-tertiary)]" />
+                            <div className="w-full h-full flex items-center justify-center bg-[var(--bg-card-hover)] text-[var(--text-secondary)] font-bold text-sm uppercase">
+                                {url.title?.charAt(0) || <Globe className="w-4 h-4" />}
+                            </div>
                         )}
                     </div>
                 </div>

@@ -12,6 +12,7 @@
 *   **👥 Team Collaboration:** Create shared dashboards for teams with secure access codes.
 *   **⌨️ Command Palette:** Press `Cmd+K` (or `Ctrl+K`) to instantly search and navigate your links.
 *   **🎨 Beautiful UI:** Built with Tailwind CSS v4 and Framer Motion for smooth animations and a polished look.
+*   **🖼️ Smart Icon System:** Automatically fetches best-quality icons/logos for URLs using a robust fallback system (Unavatar + Custom Letter Avatars).
 *   **🔐 Private & Secure:** Local-first architecture with optional encrypted cloud backups.
 *   **📱 Responsive Design:** Fully optimized for desktop, tablet, and mobile.
 
@@ -23,7 +24,7 @@
 *   **Animations:** [Framer Motion](https://www.framer.com/motion/)
 *   **Drag & Drop:** [@dnd-kit](https://dndkit.com/)
 *   **Backend / Sync:** [Firebase](https://firebase.google.com/)
-*   **Icons:** [Lucide React](https://lucide.dev/)
+*   **Icons:** [Lucide React](https://lucide.dev/) & [Unavatar](https://unavatar.io/)
 
 ## 🚀 Getting Started
 

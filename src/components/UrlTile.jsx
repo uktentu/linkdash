@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
-import { ExternalLink, Edit2, X, Globe, ArrowUpRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Edit2, X, Globe, ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
 
 export function UrlTile({ url, index, onEdit, onDelete, onClick }) {
     const [isHovered, setIsHovered] = useState(false);
@@ -19,11 +19,7 @@ export function UrlTile({ url, index, onEdit, onDelete, onClick }) {
         url.customFavicon || `https://unavatar.io/${new URL(url.url).hostname}?fallback=false`
     );
 
-    // Update state if url/prop changes (e.g. after edit)
-    useEffect(() => {
-        setImgError(false);
-        setFaviconSrc(url.customFavicon || `https://unavatar.io/${new URL(url.url).hostname}?fallback=false`);
-    }, [url.url, url.customFavicon]);
+
 
     const handleImageError = () => {
         if (url.customFavicon && faviconSrc === url.customFavicon) {

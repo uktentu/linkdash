@@ -241,6 +241,7 @@ function App() {
         isOpen={paletteOpen}
         onClose={() => setPaletteOpen(false)}
         categories={categories}
+        teams={teams}
         onIncrementClick={incrementUrlClick}
       />
 

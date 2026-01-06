@@ -175,7 +175,7 @@ export function CategoryCard({ category, viewMode, onEdit, onDelete, onAddUrl, o
                                             <AnimatePresence initial={false} mode="popLayout">
                                                 {category.urls.map((url, idx) => (
                                                     <UrlTile
-                                                        key={url.id}
+                                                        key={`${url.id}-${url.url}-${url.customFavicon || ''}`}
                                                         url={url}
                                                         index={idx}
                                                         viewMode={viewMode}

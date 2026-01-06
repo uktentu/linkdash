@@ -189,7 +189,20 @@ export function useLocalStorage() {
                         )
                     }
                     : cat
-            )
+            ),
+            teams: (prev.teams || []).map(team => ({
+                ...team,
+                categories: team.categories.map(cat =>
+                    cat.id === categoryId
+                        ? {
+                            ...cat,
+                            urls: cat.urls.map(u =>
+                                u.id === urlId ? { ...u, clickCount: (u.clickCount || 0) + 1 } : u
+                            )
+                        }
+                        : cat
+                )
+            }))
         }));
     };
 

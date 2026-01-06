@@ -3,13 +3,15 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Command, ArrowRight, CornerDownLeft } from 'lucide-react';
 
-export function CommandPalette({ isOpen, onClose, categories, onIncrementClick }) {
+export function CommandPalette({ isOpen, onClose, categories, teams = [], onIncrementClick }) {
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     // Flatten all URLs into a searchable list
     const allItems = useMemo(() => {
         const items = [];
+
+        // Add personal categories
         categories.forEach(cat => {
             cat.urls.forEach(url => {
                 items.push({
@@ -25,9 +27,33 @@ export function CommandPalette({ isOpen, onClose, categories, onIncrementClick }
                 });
             });
         });
+
+        // Add team categories
+        teams.forEach(team => {
+            if (team.categories) {
+                team.categories.forEach(cat => {
+                    if (cat.urls) {
+                        cat.urls.forEach(url => {
+                            items.push({
+                                type: 'url',
+                                id: url.id,
+                                title: url.title || url.url,
+                                subtitle: `${team.name} • ${cat.name}`,
+                                url: url.url,
+                                icon: url.customFavicon || `https://www.google.com/s2/favicons?domain=${new URL(url.url).hostname}`,
+                                originalObj: url,
+                                categoryId: cat.id,
+                                clickCount: url.clickCount || 0
+                            });
+                        });
+                    }
+                });
+            }
+        });
+
         // Sort by click count for better relevance!
         return items.sort((a, b) => b.clickCount - a.clickCount);
-    }, [categories]);
+    }, [categories, teams]);
 
     // Filter items based on query
     const filteredItems = useMemo(() => {

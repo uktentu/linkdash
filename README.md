@@ -14,6 +14,9 @@
 *   **🎨 Beautiful UI:** Built with Tailwind CSS v4 and Framer Motion for smooth animations and a polished look.
 *   **🖼️ Smart Icon System:** Automatically fetches best-quality icons/logos for URLs using a robust fallback system (Unavatar + Custom Letter Avatars).
 *   **🔐 Private & Secure:** Local-first architecture with optional encrypted cloud backups.
+*   **📱 PWA & Cross-Platform:** Installable as a native app on macOS, Windows, Linux, iOS, and Android.
+*   **🔍 OpenSearch Support:** Search your bookmarks directly from your browser's address bar.
+*   **🔌 System Integrations:** Helper scripts for Raycast (Mac), Terminal (Zsh/Bash), and PowerShell (Windows) for instant access.
 *   **📱 Responsive Design:** Fully optimized for desktop, tablet, and mobile.
 
 ## 🛠️ Technology Stack
@@ -89,3 +92,34 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
+
+## 🔌 System Integrations
+
+Access LinkDash instantly from your operating system without opening the browser first. We provide native helper scripts in the `integrations/` folder.
+
+### 🍎 macOS (Raycast / Alfred)
+Use the provided script to add a "Search LinkDash" command to Raycast.
+1.  Copy `integrations/raycast-linkdash.sh` to your scripts directory.
+2.  Open Raycast > Extensions > Script Commands.
+3.  **Usage:** `Cmd+Space` (or your hotkey) -> type `ld` -> `Enter` -> type query.
+
+### 🐧 macOS / Linux (Terminal)
+Add the function from `integrations/terminal-alias.sh` to your `.zshrc` or `.bashrc`.
+**Usage:**
+```bash
+ld "react docs"  # Opens your React Docs link
+```
+
+### 🪟 Windows (PowerShell)
+Add the function from `integrations/linkdash-win.ps1` to your PowerShell profile.
+**Usage:**
+```powershell
+ld "project board"
+```
+
+## 🔍 Browser Integration (OpenSearch)
+
+LinkDash implements the **OpenSearch** standard.
+1.  Visit your deployed LinkDash site.
+2.  Your browser (Chrome/Edge/Brave) will automatically detect it.
+3.  **Usage:** Type `linkdash` (or your keyword) + `Space` in the address bar to search directly.

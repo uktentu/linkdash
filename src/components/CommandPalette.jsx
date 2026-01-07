@@ -8,13 +8,8 @@ export function CommandPalette({ isOpen, onClose, categories, teams = [], initia
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     // Sync query with initialQuery when it changes (or when reopening)
-    useEffect(() => {
-        if (isOpen && initialQuery) {
-            setQuery(initialQuery);
-        } else if (!isOpen) {
-            setQuery(''); // Clear on close
-        }
-    }, [isOpen, initialQuery]);
+    // Sync query with initialQuery when it changes (or when reopening) - Handled by fresh mount
+    // Component unmounts on close, so state resets automatically.
 
     // Flatten all URLs into a searchable list
     const allItems = useMemo(() => {

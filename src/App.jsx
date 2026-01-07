@@ -53,17 +53,19 @@ function App() {
   const [recoverAccountOpen, setRecoverAccountOpen] = useState(false);
 
   // Command Palette
-  const [paletteOpen, setPaletteOpen] = useState(false);
-  const [initialQuery, setInitialQuery] = useState('');
-
-  // Check for search params on mount
-  useEffect(() => {
+  const [paletteOpen, setPaletteOpen] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const query = params.get('q');
-    if (query) {
-      setInitialQuery(query);
-      setPaletteOpen(true);
-      // Clean up URL without refresh
+    return !!params.get('q');
+  });
+
+  const [initialQuery] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('q') || '';
+  });
+
+  // Clean up URL on mount if query exists
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('q')) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
@@ -266,6 +268,8 @@ function App() {
         currentPattern={localData.pattern || 'dots'}
         currentLinkLayout={localData.linkLayout || 'list'} // Pass this
         onUpdate={updateTheme}
+        localData={localData}
+        onImport={importData}
       />
 
       {/* Dynamic Background Pattern */}

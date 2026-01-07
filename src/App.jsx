@@ -54,6 +54,19 @@ function App() {
 
   // Command Palette
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [initialQuery, setInitialQuery] = useState('');
+
+  // Check for search params on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q');
+    if (query) {
+      setInitialQuery(query);
+      setPaletteOpen(true);
+      // Clean up URL without refresh
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
 
   // Settings
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -242,6 +255,7 @@ function App() {
         onClose={() => setPaletteOpen(false)}
         categories={categories}
         teams={teams}
+        initialQuery={initialQuery}
         onIncrementClick={incrementUrlClick}
       />
 

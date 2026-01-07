@@ -3,9 +3,18 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Command, ArrowRight, CornerDownLeft } from 'lucide-react';
 
-export function CommandPalette({ isOpen, onClose, categories, teams = [], onIncrementClick }) {
-    const [query, setQuery] = useState('');
+export function CommandPalette({ isOpen, onClose, categories, teams = [], initialQuery = '', onIncrementClick }) {
+    const [query, setQuery] = useState(initialQuery);
     const [selectedIndex, setSelectedIndex] = useState(0);
+
+    // Sync query with initialQuery when it changes (or when reopening)
+    useEffect(() => {
+        if (isOpen && initialQuery) {
+            setQuery(initialQuery);
+        } else if (!isOpen) {
+            setQuery(''); // Clear on close
+        }
+    }, [isOpen, initialQuery]);
 
     // Flatten all URLs into a searchable list
     const allItems = useMemo(() => {

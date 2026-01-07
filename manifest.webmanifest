@@ -1,0 +1,1 @@
+{"name":"LinkDash","short_name":"LinkDash","description":"Your new tab dashboard and link manager","start_url":"./?q=","display":"standalone","background_color":"#09090b","theme_color":"#09090b","lang":"en","scope":"./","icons":[{"src":"linkdash-icon.svg","sizes":"192x192","type":"image/svg+xml"},{"src":"linkdash-icon.svg","sizes":"512x512","type":"image/svg+xml"}]}

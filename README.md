@@ -97,25 +97,43 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 Access LinkDash instantly from your operating system without opening the browser first. We provide native helper scripts in the `integrations/` folder.
 
-### 🍎 macOS (Raycast / Alfred)
-Use the provided script to add a "Search LinkDash" command to Raycast.
-1.  Copy `integrations/raycast-linkdash.sh` to your scripts directory.
-2.  Open Raycast > Extensions > Script Commands.
-3.  **Usage:** `Cmd+Space` (or your hotkey) -> type `ld` -> `Enter` -> type query.
+### 🍎 macOS (Raycast)
+
+1.  **Locate Script:** Find `integrations/raycast-linkdash.sh` in the project folder.
+2.  **Add to Raycast:**
+    *   Open Raycast Settings (`Cmd + ,`).
+    *   Go to **Extensions** > **Scripts**.
+    *   Click **Add Script Directory** and select the `integrations` folder (or copy the script to your existing scripts folder).
+3.  **Use It:**
+    *   Open Raycast (`Opt + Space`).
+    *   Type `LinkDash` (or standard alias).
+    *   Press `Enter`, type your query, and hit `Enter` again.
 
 ### 🐧 macOS / Linux (Terminal)
-Add the function from `integrations/terminal-alias.sh` to your `.zshrc` or `.bashrc`.
-**Usage:**
-```bash
-ld "react docs"  # Opens your React Docs link
-```
+
+1.  **Open Config:** Open your shell configuration file (e.g., `~/.zshrc` or `~/.bashrc`).
+2.  **Add Alias:** Copy the function from `integrations/terminal-alias.sh` and paste it into the file.
+    ```bash
+    ld() { open "https://uktentu.github.io/linkdash/?q=$*"; }
+    ```
+3.  **Reload:** Run `source ~/.zshrc` (or your config file).
+4.  **Use It:** Type `ld <query>` in your terminal.
+    ```bash
+    ld react docs
+    ```
 
 ### 🪟 Windows (PowerShell)
-Add the function from `integrations/linkdash-win.ps1` to your PowerShell profile.
-**Usage:**
-```powershell
-ld "project board"
-```
+
+1.  **Open Profile:** Run `notepad $PROFILE` in PowerShell to open your profile script.
+2.  **Add Function:** Copy the function from `integrations/linkdash-win.ps1` and paste it into the file.
+    ```powershell
+    function ld { param([string]$q) Start-Process "https://uktentu.github.io/linkdash/?q=$q" }
+    ```
+3.  **Reload:** Restart PowerShell or run `. $PROFILE`.
+4.  **Use It:** Type `ld <query>` in PowerShell.
+    ```powershell
+    ld "project board"
+    ```
 
 ## 🔍 Browser Integration (OpenSearch)
 

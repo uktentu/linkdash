@@ -13,11 +13,13 @@
 *   **⌨️ Command Palette:** Press `Cmd+K` (or `Ctrl+K`) to instantly search and navigate your links.
 *   **🎨 Beautiful UI:** Built with Tailwind CSS v4 and Framer Motion for smooth animations and a polished look.
 *   **🖼️ Smart Icon System:** Automatically fetches best-quality icons/logos for URLs using a robust fallback system (Unavatar + Custom Letter Avatars).
+*   **💾 Data Portability:** Full ownership of your data with JSON Backup/Restore and HTML Import/Export (Netscape standard).
+*   **🧭 Guided Import:** Step-by-step specific guides for importing bookmarks from Chrome, Safari, Edge, and Firefox.
 *   **🔐 Private & Secure:** Local-first architecture with optional encrypted cloud backups.
 *   **📱 PWA & Cross-Platform:** Installable as a native app on macOS, Windows, Linux, iOS, and Android.
 *   **🔍 OpenSearch Support:** Search your bookmarks directly from your browser's address bar.
 *   **🔌 System Integrations:** Helper scripts for Raycast (Mac), Terminal (Zsh/Bash), and PowerShell (Windows) for instant access.
-*   **📱 Responsive Design:** Fully optimized for desktop, tablet, and mobile.
+*   **📱 Responsive Settings UI:** Newly redesigned Settings modal with Tabbed interface and Card-based layouts.
 
 ## 🛠️ Technology Stack
 
@@ -92,6 +94,23 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
+
+## 💾 Data Portability & Backup
+
+LinkDash prevents vendor lock-in by supporting industry-standard formats. Access these tools in **Settings (Gear Icon) > Data & Backup**.
+
+### Export
+*   **JSON Backup:** Download a full state of your dashboard, including all categories, teams, colors, and layouts.
+*   **HTML Bookmarks:** Export your links to a standard Netscape HTML file, compatible with every major browser (Chrome, Firefox, Safari, Edge).
+
+### Import
+*   **Restore JSON:** Upload a previously exported LinkDash backup.
+*   **Import Bookmarks:** Import bookmarks directly from your browser's HTML export.
+*   **Guided Import:** The UI includes built-in guides with step-by-step instructions for exporting bookmarks from:
+    *   Chrome
+    *   Safari
+    *   Microsoft Edge
+    *   Firefox
 
 ## 🔌 System Integrations
 

@@ -8,6 +8,7 @@
 
 *   **🗂️ Smart Organization:** Group links into categories and teams for easy access.
 *   **🖐️ Drag & Drop Interface:** Fully reorderable categories and links using the DnD Kit.
+*   **📐 Grid & List Layouts:** Toggle between a dense grid view or a detailed list view for your links.
 *   **☁️ Cloud Sync (Firebase):** Optionally sync your dashboard across devices with secure cloud storage.
 *   **👥 Team Collaboration:** Create shared dashboards for teams with secure access codes.
 *   **⌨️ Command Palette:** Press `Cmd+K` (or `Ctrl+K`) to instantly search and navigate your links.
@@ -19,7 +20,7 @@
 *   **📱 PWA & Cross-Platform:** Installable as a native app on macOS, Windows, Linux, iOS, and Android.
 *   **🔍 OpenSearch Support:** Search your bookmarks directly from your browser's address bar.
 *   **🔌 System Integrations:** Helper scripts for Raycast (Mac), Terminal (Zsh/Bash), and PowerShell (Windows) for instant access.
-*   **📱 Responsive Settings UI:** Newly redesigned Settings modal with Tabbed interface and Card-based layouts.
+*   **📱 Responsive Settings UI:** Newly redesigned Settings modal with split Appearance and Data management tabs.
 
 ## 🛠️ Technology Stack
 

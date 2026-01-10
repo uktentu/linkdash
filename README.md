@@ -92,6 +92,10 @@ This script builds the project and pushes the `dist` folder to the `gh-pages` br
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+## 🔮 Roadmap & Future Scope
+
+Interested in where LinkDash is heading? Check out our [Roadmap & Future Scope](FUTURE_SCOPE.md) document for upcoming features, monetization ideas, and "side quest" projects.
+
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
